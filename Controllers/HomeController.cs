@@ -1,24 +1,25 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using OrderSystem.Models;
+using OrderSystem.Services;
 
 namespace OrderSystem.Controllers;
 
 public class HomeController : Controller
 {
+    private readonly IGreetingService _greetingService;
+
+    public HomeController(IGreetingService greetingService)
+    {
+        _greetingService = greetingService;
+    }
+
     public IActionResult Index()
     {
+        ViewData["Greeting"] = _greetingService.GetGreeting();
         return View();
     }
 
-    public IActionResult Privacy()
+    public IActionResult About()
     {
         return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
